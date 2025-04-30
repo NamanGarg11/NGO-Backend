@@ -46,5 +46,14 @@ module.exports.loginUser = async (req, res, next) => {
     } catch (error) {
       next(error); // Pass error to your error handling middleware
     }
-  };
+};
+module.exports.logoutUser = async (req, res) => {
+    const token = req.cookies.token || req.headers?.authorization?.split(" ")[1];
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict"
+    });
+    res.status(200).json({ message: "Logged out successfully" });
+}
   
