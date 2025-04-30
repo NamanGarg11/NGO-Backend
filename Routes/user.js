@@ -3,8 +3,8 @@ const router = express.Router();
 
 const userController = require('../controller/userController');
 const { userSchema } = require('../Validation/userSchema');
-const userValidate = require("../middlewares/userValidate")
+const Validate = require("../middlewares/Validate")
 
-router.post('/register', userValidate(userSchema), userController.register);
+router.post('/register',Validate(userSchema), userController.register);
 
 module.exports = router;

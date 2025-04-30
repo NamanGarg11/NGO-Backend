@@ -1,6 +1,5 @@
 const usermodel = require('../Models/usermodel');
 const userService = require('../Services/userService');
-const userSchema = require('../Validation/userSchema');
 const { z } = require('zod');
 module.exports.register = async (req, res,next) => {
     const { fullname, email, password } = req.body;
