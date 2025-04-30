@@ -15,3 +15,7 @@ module.exports.ngoSchema = z.object({
     }),
     password: z.string().min(6),
   });
+module.exports.ngoLoginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6)
+  });

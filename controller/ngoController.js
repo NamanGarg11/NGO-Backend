@@ -46,3 +46,27 @@ module.exports.register = async (req, res, next) => {
     next(error); // Proper error forwarding to middleware
   }
 };
+module.exports.loginNGO = async (req, res, next) => {
+    const { email, password } = req.body;
+    const ngo = await ngomodel.findOne({ email }).select("+password");
+
+    if (!ngo) {
+        return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const isMatch = await ngo.comparePassword(password); // ✅ corrected from user to ngo
+    if (!isMatch) {
+        return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const token = ngo.generateAuthToken();
+
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Strict",
+        maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
+    res.status(200).json({ token, ngo });
+};

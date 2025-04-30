@@ -8,3 +8,7 @@ module.exports.userSchema = z.object({
     }),
     password: z.string().min(6)
   });
+module.exports.userLoginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6)
+  });
